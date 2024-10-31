@@ -52,7 +52,7 @@ def export_openvino(model, output_dir):
     #export onnx model
     torch.onnx.export(
     model,
-    f="./grounded.onnx",
+    f="./weights/grounded.onnx",
     args=(img, input_ids, attention_mask, position_ids, token_type_ids, text_token_mask), #, zeros, ones),
     input_names=["img" , "input_ids", "attention_mask", "position_ids", "token_type_ids", "text_token_mask"],
     output_names=["logits", "boxes"],
@@ -60,7 +60,7 @@ def export_openvino(model, output_dir):
     opset_version=16)
     
     #convert_model returns an openvino.runtime.Model object
-    ov_model = convert_model("./grounded.onnx")
+    ov_model = convert_model("./weights/grounded.onnx")
     
     # then model can be serialized to *.xml & *.bin files
     serialize(ov_model, xml_path=output_dir + '/groundingdino.xml')
